@@ -1,28 +1,38 @@
 <!doctype html>
 <html>
 <head>
-<title>Framework Test</title>
+<title>Case-Hardened JavaScript Tests</title>
 </head>
 <body>
-Testing my new framework.
+<p>Making sure some of the assumptions I've made about my new framework are true.</p>
+<ol>
+<li>Hard-coded <code>script</code> tags always work, since they show up before <code>window.onload</code> fires.</li>
+<li>Dynamically-created <code>script</code> tags work, if they are created before <code>window.onload</code> fires.</li>
+<li>Dynamically-created <code>script</code> tags do NOT work if they are created AFTER <code>window.onload</code> fires.</li>
+</ol>
 <script>
 var b = document.createElement('BUTTON');
 b.innerHTML = 'Click to add a button.';
 b.onclick = function() {
+   // dynamically create a NEW instance of stub.js
    var s = document.createElement('SCRIPT');
    s.src = 'stub.js';
-   s.setAttribute('settings', 'exe=true');
+   // settings is a non-existant attribute, so Firefox will want us to use setAttribute and not just s.settings='foo'
+   s.setAttribute('settings', 'exe=1');
+   // exe=set means "run me immediately."
    document.getElementsByTagName('BODY')[0].appendChild(s);
 }
 document.getElementsByTagName('BODY')[0].appendChild(b);
 
-for (var i = 0; i < 3; i++) {
+// this should NOT work, since it's firing after the window loads, without
+// setting exe
+window.onload = function() {
    var s = document.createElement('SCRIPT');
    s.src = 'stub.js';
    document.getElementsByTagName('BODY')[0].appendChild(s);
-}
-
+};
 </script>
+<!-- this should always work -->
 <script src="stub.js"></script>
 </body>
 </html>
