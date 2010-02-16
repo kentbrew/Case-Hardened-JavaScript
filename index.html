@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>Framework Test</title>
+</head>
+<body>
+Testing my new framework.
+<script>
+var b = document.createElement('BUTTON');
+b.innerHTML = 'Click to add a button.';
+b.onclick = function() {
+   var s = document.createElement('SCRIPT');
+   s.src = 'stub.js';
+   s.setAttribute('settings', 'exe=true');
+   document.getElementsByTagName('BODY')[0].appendChild(s);
+}
+document.getElementsByTagName('BODY')[0].appendChild(b);
+
+for (var i = 0; i < 3; i++) {
+   var s = document.createElement('SCRIPT');
+   s.src = 'stub.js';
+   document.getElementsByTagName('BODY')[0].appendChild(s);
+}
+
+</script>
+<script src="stub.js"></script>
+</body>
+</html>
