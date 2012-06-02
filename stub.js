@@ -1,57 +1,58 @@
-(function (w, d, a) {
-  var $ = w[a.k] = {
-    'a': a, 'd': d, 'w': w,
-    'f': (function () {
+(function (win, doc, arg) {
+  var $ = win[arg.root] = {
+    'arg': arg, 'doc': doc, 'win': win,
+    'func': (function () {
       return {
         close: function () {
-          $.s.bd.parentNode.removeChild($.s.bd);
+          $.struc.body.parentNode.removeChild($.struc.body);
         },
         listen: function (el, ev, fn) {
-          if (typeof $.w.addEventListener !== 'undefined') {
+          if (typeof $.win.addEventListener !== 'undefined') {
             el.addEventListener(ev, fn, false);
-          } else if (typeof $.w.attachEvent !== 'undefined') {
+          } else if (typeof $.win.attachEvent !== 'undefined') {
             el.attachEvent('on' + ev, fn);
           }
         }, 
         behavior: function () {
-          $.f.listen($.s.x, 'click', $.f.close);
+          $.func.listen($.struc.x, 'click', $.func.close);
         },
         presentation: function () {
-          $.d.h = $.d.getElementsByTagName('HEAD')[0];
-          var rules = $.a.rules.join('\n'),
-            css = $.d.createElement('STYLE');
+          $.doc.head = $.doc.getElementsByTagName('HEAD')[0];
+          var rules = $.arg.rules.join('\n'),
+            css = $.doc.createElement('STYLE');
           css.type = 'text/css';
-          rules = rules.replace(/#_/g, '#' + $.a.k + '_');
+          rules = rules.replace(/#_/g, '#' + $.arg.root + '_');
+          rules = rules.replace(/;/g, '!important;');
           if (css.styleSheet) {
             css.styleSheet.cssText = rules;
           } else {
-            css.appendChild($.d.createTextNode(rules));
+            css.appendChild($.doc.createTextNode(rules));
           }
-          $.d.h.appendChild(css);
-          $.f.behavior();
+          $.doc.head.appendChild(css);
+          $.func.behavior();
         },
         structure: function (script) {
-          $.a.config = script.getAttribute('data-config');
-          $.s = {};
-          $.s.bd = $.d.createElement('DIV');
-          $.s.bd.id = $.a.k + '_bd';
-          var span = $.d.createElement('SPAN');
-          span.innerHTML = $.a.config;
-          $.s.bd.appendChild(span);
-          $.s.x = $.d.createElement('A');
-          $.s.x.id = $.a.k + '_x';
-          $.s.x.innerHTML = 'x';
-          $.s.bd.appendChild($.s.x);
-          script.parentNode.insertBefore($.s.bd, script);
+          $.arg.config = script.getAttribute('data-config');
+          $.struc = {};
+          $.struc.body = $.doc.createElement('DIV');
+          $.struc.body.id = $.arg.root + '_bd';
+          var span = $.doc.createElement('SPAN');
+          span.innerHTML = $.arg.config;
+          $.struc.body.appendChild(span);
+          $.struc.x = $.doc.createElement('A');
+          $.struc.x.id = $.arg.root + '_x';
+          $.struc.x.innerHTML = 'x';
+          $.struc.body.appendChild($.struc.x);
+          script.parentNode.insertBefore($.struc.body, script);
           script.parentNode.removeChild(script);
-          $.f.presentation();
+          $.func.presentation();
         },
         init: function () {
-          var s = $.d.getElementsByTagName('SCRIPT'),
-            n = s.length, i;
+          var script = $.doc.getElementsByTagName('SCRIPT'),
+            n = script.length, i;
           for (i = 0; i < n; i = i + 1) {
-            if (s[i].src.match($.a.src)) {
-              $.f.structure(s[i]);
+            if (script[i].src.match($.arg.src)) {
+              $.func.structure(script[i]);
               break;
             }
           }
@@ -59,9 +60,9 @@
       };
     }())
   }; 
-  $.f.init();     
+  $.func.init();     
 }(window, document, {
-  'k': '_' + new Date().getTime(),
+  'root': '_' + new Date().getTime(),
   'src': /widget.js$/,
   'rules': [ 
     '#_bd { padding: 20px 40px; position: absolute; top: 0; right: 0; background: #f00; color: #fff; }',
