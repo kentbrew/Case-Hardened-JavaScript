@@ -63,7 +63,7 @@
   $.func.init();     
 }(window, document, {
   'root': '_' + new Date().getTime(),
-  'src': /widget.js$/,
+  'src': /stub.js$/,
   'rules': [ 
     '#_bd { padding: 20px 40px; position: absolute; top: 0; right: 0; background: #f00; color: #fff; }',
     '#_x { position: absolute; top: 2px; right: 10px; color: #ff0; cursor: pointer; }'
